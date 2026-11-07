@@ -12,6 +12,14 @@
 
 [발표자료](docs/portfolio/모아농_발표자료.pdf) · [기능 화면 캡처집](docs/portfolio/모아농_기능화면.pdf) · [협업 과정 기록](docs/협업_과정.md)
 
+**Team 쉽조**
+
+<a href="https://github.com/baejh3333-del"><img height="28" alt="배정현 · 총괄" src="https://img.shields.io/badge/%EB%B0%B0%EC%A0%95%ED%98%84-%EC%B4%9D%EA%B4%84-2e7d4f?style=flat-square&logo=github&logoColor=white&labelColor=24392d" /></a>
+<a href="https://github.com/hyunji061105"><img height="28" alt="최현지 · UI" src="https://img.shields.io/badge/%EC%B5%9C%ED%98%84%EC%A7%80-UI-2e7d4f?style=flat-square&logo=github&logoColor=white&labelColor=24392d" /></a>
+<a href="https://github.com/mainsilver"><img height="28" alt="박주은 · UI · 기획" src="https://img.shields.io/badge/%EB%B0%95%EC%A3%BC%EC%9D%80-UI%20%C2%B7%20%EA%B8%B0%ED%9A%8D-2e7d4f?style=flat-square&logo=github&logoColor=white&labelColor=24392d" /></a>
+<a href="https://github.com/bluejun0303-design"><img height="28" alt="한준규 · 에이전트" src="https://img.shields.io/badge/%ED%95%9C%EC%A4%80%EA%B7%9C-%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8-2e7d4f?style=flat-square&logo=github&logoColor=white&labelColor=24392d" /></a>
+<a href="https://github.com/moad0529"><img height="28" alt="권혁 · UX" src="https://img.shields.io/badge/%EA%B6%8C%ED%98%81-UX-2e7d4f?style=flat-square&logo=github&logoColor=white&labelColor=24392d" /></a>
+
 ![Node.js](https://img.shields.io/badge/Node.js_24-339933?logo=nodedotjs&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/Vanilla_JS-F7DF1E?logo=javascript&logoColor=black)
 ![OpenAI](https://img.shields.io/badge/OpenAI_Responses_API-412991?logo=openai&logoColor=white)
