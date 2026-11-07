@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5efe4" />
+  <meta name="description" content="초보 농부도 쉽게! 작물과 작업에 맞는 농기계를 가까운 곳에서 찾고 대여하거나 구매하세요." />
+  <title>모아농기계 — 초보 농부도 쉬운 우리 동네 농기계 대여·구매</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap" />
+  <link rel="stylesheet" href="/src/styles.css" />
+  <link rel="stylesheet" href="/src/garage.css" />
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="sidebar" aria-label="사이트 헤더">
+      <button type="button" class="brand brand-moanong" id="brandHome" aria-label="모아농 홈으로 가기">
+        <span class="brand-mark" aria-hidden="true"><span class="brand-circle">모</span><span class="brand-circle">아</span><span class="brand-circle brand-circle-accent">농</span></span>
+        <span class="brand-tagline" aria-hidden="true"><span>E</span><span>A</span><span>S</span><span>Y</span><span class="gap"></span><span>F</span><span>A</span><span>R</span><span>M</span><span class="gap"></span><span>R</span><span>E</span><span>N</span><span>T</span><span>A</span><span>L</span></span>
+      </button>
+      <nav class="sidebar-nav" aria-label="주 메뉴">
+        <button type="button" class="nav-item active" aria-label="홈" data-view="home" aria-current="page">
+          <span class="nav-icon" aria-hidden="true"></span>
+          <span class="nav-label">홈</span>
+        </button>
+        <button type="button" class="nav-item" aria-label="매물 찾기" data-view="browse">
+          <span class="nav-icon" aria-hidden="true"></span>
+          <span class="nav-label">매물 찾기</span>
+        </button>
+        <button type="button" class="nav-item" aria-label="작업 가이드" data-view="guide">
+          <span class="nav-icon" aria-hidden="true"></span>
+          <span class="nav-label">작업 가이드</span>
+        </button>
+        <button type="button" class="nav-item" aria-label="찜 목록" data-action="favorites" aria-haspopup="dialog">
+          <span class="nav-icon" aria-hidden="true"></span>
+          <span class="nav-label">찜 목록</span>
+          <span class="nav-badge" id="favNavBadge" hidden>0</span>
+        </button>
+        <button type="button" class="nav-item" aria-label="대여 요청" data-view="requests">
+          <span class="nav-icon" aria-hidden="true"></span>
+          <span class="nav-label">대여 요청</span>
+        </button>
+        <button type="button" class="nav-item" aria-label="내 기계 관리" data-view="owner">
+          <span class="nav-icon" aria-hidden="true"></span>
+          <span class="nav-label">내 기계 관리</span>
+          <span id="ownerBadge" class="nav-badge" hidden>0</span>
+        </button>
+        <button type="button" class="nav-item" aria-label="모아농 브랜드 소개" data-view="about">
+          <span class="nav-icon" aria-hidden="true"></span>
+          <span class="nav-label">모아농?</span>
+        </button>
+        <button type="button" class="nav-item" data-view="garage" aria-label="내 농기계·호환"><span class="nav-label">내 농기계·호환</span></button>
+      </nav>
+
+      <div class="topbar-left">
+          <div class="region-pill">
+            <span class="region-pin" aria-hidden="true"></span>
+            <label for="regionSelect" class="region-label">내 동네</label>
+            <select id="regionSelect" aria-label="내 동네 선택">
+              <option value="영양읍">영양읍</option>
+              <option value="청기면">청기면</option>
+              <option value="입암면">입암면</option>
+              <option value="수비면">수비면</option>
+            </select>
+            <span class="region-arrow" aria-hidden="true">▾</span>
+          </div>
+          <button type="button" class="login-button" id="loginButton">로그인</button>
+      </div>
+    </header>
+
+    <div class="page-shell" id="top">
+      <main class="main-content">
+        <div id="garageView" hidden></div>
+        <!-- 홈: 메인 배너 + 빠른 검색 -->
+        <div id="homeView">
+          <section class="banner-carousel" id="bannerCarousel" aria-roledescription="carousel" aria-label="메인 배너">
+            <div class="banner-track" id="bannerTrack">
+              <div class="banner-slide banner-slide-1 is-active" role="group" aria-roledescription="slide" aria-label="1 / 3">
+                <span class="banner-bg" aria-hidden="true"></span>
+                <div class="banner-copy">
+                  <span class="banner-tag">초보 농부를 위한 농기계 대여</span>
+                  <h1 id="heroTitle" class="banner-title">농기계,<br />클릭 한 번으로</h1>
+                  <p>기계 이름 몰라도, 하려는 일만 알려주세요.</p>
+                  <div class="banner-actions">
+                    <button type="button" class="banner-cta" data-banner-view="browse">농기계 찾기</button>
+                    <button type="button" class="banner-cta banner-cta-ghost" data-banner-view="guide">작업 가이드 보기</button>
+                  </div>
+                </div>
+              </div>
+              <div class="banner-slide banner-slide-2" role="group" aria-roledescription="slide" aria-label="2 / 3" aria-hidden="true">
+                <span class="banner-bg" aria-hidden="true"></span>
+                <div class="banner-copy">
+                  <span class="banner-tag">우리 동네 농기계</span>
+                  <h2 class="banner-title">멀리 갈 필요 없이,<br />가까운 곳에서</h2>
+                  <p>이웃 농가의 농기계를 바로 빌려요.</p>
+                  <div class="banner-actions">
+                    <button type="button" class="banner-cta" data-banner-view="browse" tabindex="-1">농기계 찾기</button>
+                    <button type="button" class="banner-cta banner-cta-ghost" data-banner-view="guide" tabindex="-1">작업 가이드 보기</button>
+                  </div>
+                </div>
+              </div>
+              <div class="banner-slide banner-slide-3" role="group" aria-roledescription="slide" aria-label="3 / 3" aria-hidden="true">
+                <span class="banner-bg" aria-hidden="true"></span>
+                <div class="banner-copy">
+                  <span class="banner-tag">언제든 편하게</span>
+                  <h2 class="banner-title">시간 걱정 없이,<br />필요할 때</h2>
+                  <p>밤에도 주말에도 예약하고 문의하세요.</p>
+                  <div class="banner-actions">
+                    <button type="button" class="banner-cta" data-banner-view="browse" tabindex="-1">농기계 찾기</button>
+                    <button type="button" class="banner-cta banner-cta-ghost" data-banner-view="guide" tabindex="-1">작업 가이드 보기</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="banner-controls">
+              <div class="banner-controls-inner">
+                <div class="banner-dots" role="group" aria-label="배너 선택">
+                  <button type="button" class="banner-dot active" data-slide="0" aria-label="1번 배너 보기" aria-current="true"></button>
+                  <button type="button" class="banner-dot" data-slide="1" aria-label="2번 배너 보기"></button>
+                  <button type="button" class="banner-dot" data-slide="2" aria-label="3번 배너 보기"></button>
+                </div>
+                <span class="banner-counter"><strong id="bannerCounter">01</strong> / 03</span>
+                <button type="button" class="banner-arrow" id="bannerPrev" aria-label="이전 배너"><span aria-hidden="true">‹</span></button>
+                <button type="button" class="banner-arrow" id="bannerPause" aria-label="자동 넘김 멈추기" aria-pressed="false"><span class="banner-pause-icon" aria-hidden="true"></span></button>
+                <button type="button" class="banner-arrow" id="bannerNext" aria-label="다음 배너"><span aria-hidden="true">›</span></button>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- 매물 찾기: 홈 배너 바로 아래로 이어지는 영역 -->
+        <div id="browseView">
+          <section class="search-dock" id="machineSearch" aria-label="농기계 빠른 검색">
+              <div class="transaction-switch-large" role="group" aria-label="거래 방식 선택">
+                <button type="button" id="rentTab" class="tx-tab active" aria-pressed="true">
+                  <span class="tx-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"></rect><path d="M3.5 9.5h17M8 3v4M16 3v4"></path><path d="M9 14.5l2 2 4-4"></path></svg></span>
+                  <span class="tx-label">빌려쓰기 (일일 대여)</span>
+                  <span class="tx-pill">초보 추천</span>
+                </button>
+                <button type="button" id="saleTab" class="tx-tab" aria-pressed="false">
+                  <span class="tx-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12l4-4 3 2 3-2 4 4"></path><path d="M7 16l2 2c.6.6 1.4.6 2 0l1-1 1 1c.6.6 1.4.6 2 0l2-2"></path><path d="M3 12l4 4M21 12l-4 4"></path></svg></span>
+                  <span class="tx-label">중고로 구매하기</span>
+                </button>
+              </div>
+
+              <div class="quick-search-bar">
+                <div class="qs-field qs-dates" id="quickDateBox" role="group" aria-label="대여일과 반납일">
+                  <label class="qs-date" title="대여일">
+                    <span class="qs-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"></rect><path d="M3.5 9.5h17M8 3v4M16 3v4"></path><path d="M7 14.5h6M11 12.5l2 2-2 2"></path></svg></span>
+                    <span class="qs-date-text"><strong id="quickDateLabel">대여일</strong><small id="quickDateDay"></small></span>
+                    <input id="quickDateInput" type="date" aria-label="대여일 선택" />
+                  </label>
+                  <span class="qs-date-divider" aria-hidden="true"></span>
+                  <label class="qs-date" title="반납일">
+                    <span class="qs-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"></rect><path d="M3.5 9.5h17M8 3v4M16 3v4"></path><path d="M11 14.5h6M15 12.5l2 2-2 2"></path></svg></span>
+                    <span class="qs-date-text"><strong id="quickDateEndLabel">반납일</strong><small id="quickDateEndDay"></small></span>
+                    <input id="quickDateEndInput" type="date" aria-label="반납일 선택" />
+                  </label>
+                  <button type="button" class="qs-clear" id="clearQuickDate" title="날짜 초기화" aria-label="날짜 초기화" hidden>×</button>
+                </div>
+
+                <div class="qs-field">
+                  <span class="qs-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg></span>
+                  <div class="qs-content">
+                    <label for="quickRadiusSelect">이동 거리</label>
+                    <select id="quickRadiusSelect" aria-label="이동 거리 반경">
+                      <option value="all">영양군 전체</option>
+                      <option value="10">가까운 10km 이내</option>
+                      <option value="20">20km 이내</option>
+                      <option value="30">30km 이내</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="qs-field qs-search-input">
+                  <span class="qs-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4.2-4.2"></path></svg></span>
+                  <div class="qs-content">
+                    <label for="searchInput">키워드 검색</label>
+                    <input id="searchInput" type="search" placeholder="작업이나 기계 검색 (예: 두둑, 멀칭, 관리기)" aria-label="농기계 검색" />
+                  </div>
+                </div>
+
+                <button type="button" class="button button-primary qs-submit" id="quickSearchBtn">
+                  <span class="qs-submit-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4.2-4.2"></path></svg></span>
+                  매물 보기
+                </button>
+              </div>
+          </section>
+
+          <!-- 매물 목록 섹션 -->
+          <section class="market-section" id="market" aria-labelledby="marketTitle">
+            <div class="market-heading reveal">
+              <div>
+                <span class="market-kicker">우리 동네 장터</span>
+                <h2 id="marketTitle" tabindex="-1">농기계 매물</h2>
+                <p id="marketSubtitle">원하는 거래 방식과 예산을 설정해 보세요.</p>
+              </div>
+
+              <div class="market-controls">
+                <button type="button" class="filter-trigger-btn" id="openFilters" aria-haspopup="dialog">
+                  <img class="picture-icon" src="./src/images/icons/sliders.jpg" alt="" width="32" height="32">
+                  <strong>상세 필터 · 평수/예산</strong>
+                  <span id="filterCount" class="filter-count" hidden>0</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="machine-category-bar" id="machineCategoryBar" role="group" aria-label="농기계 종류별 보기"></div>
+
+            <!-- 적용된 필터 칩 & 결과 개수 툴바 -->
+            <div class="toolbar">
+              <div id="activeFilters" class="active-filters" aria-label="적용된 필터"></div>
+              <button type="button" class="button-reset-inline" id="inlineResetFilters" hidden>조건 전체 해제 ✕</button>
+              <label class="listing-sort">
+                <span class="listing-sort-label">정렬</span>
+                <div class="listing-sort-picker">
+                  <button type="button" class="listing-sort-trigger" id="listingSortTrigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="listingSortMenu">
+                    <span id="listingSortCurrent">최근 점검순</span>
+                    <span class="listing-sort-chevron" aria-hidden="true"></span>
+                  </button>
+                  <div class="listing-sort-menu" id="listingSortMenu" role="listbox" aria-label="정렬 기준" hidden>
+                    <button type="button" class="listing-sort-option" role="option" data-sort-value="distance">거리순</button>
+                    <button type="button" class="listing-sort-option" role="option" data-sort-value="price">낮은 가격순</button>
+                    <button type="button" class="listing-sort-option" role="option" data-sort-value="inspection">최근 점검순</button>
+                  </div>
+                  <select id="listingSort" class="listing-sort-native" tabindex="-1" aria-hidden="true">
+                    <option value="distance">거리순</option>
+                    <option value="price">낮은 가격순</option>
+                    <option value="inspection">최근 점검순</option>
+                  </select>
+                </div>
+              </label>
+              <span class="result-count" id="resultCount"></span>
+            </div>
+
+            <!-- 매물 카드 그리드 -->
+            <div id="listingGrid" class="listing-grid" aria-live="polite"></div>
+          </section>
+        </div>
+
+        <!-- STEP 1 & STEP 2: 초보 농부를 위한 단계별 맞춤 가이드 -->
+        <section class="wizard-section" id="guideView" hidden aria-labelledby="cropTitle">
+          <div class="section-header-row">
+            <div>
+              <span class="step-pill">초보 농부 맞춤 가이드</span>
+              <h1 id="cropTitle">어려운 기계 이름 대신, 농사 순서대로 골라보세요</h1>
+              <p>작물과 할 일을 고른 뒤 조건에 맞는 매물을 확인하세요.</p>
+            </div>
+          </div>
+
+          <!-- STEP 1: 작물 선택 -->
+          <div class="step-card">
+            <div class="step-card-header">
+              <span class="step-number">1단계</span>
+              <h3><label for="cropSelect">무엇을 재배하시나요?</label></h3>
+            </div>
+            <div class="crop-picker">
+              <select id="cropSelect" aria-describedby="cropDescription"></select>
+              <p id="cropDescription"></p>
+            </div>
+          </div>
+
+          <!-- STEP 2: 농사 작업 단계 & 세부 작업 버튼 -->
+          <div class="step-card">
+            <div class="step-card-header">
+              <span class="step-number">2단계</span>
+              <h3 id="stageStepTitle">지금 어떤 작업이 필요하신가요?</h3>
+              <small>농사 순서에 맞춰 필요한 작업을 눌러보세요 (중복 선택 가능)</small>
+            </div>
+
+            <!-- 4단계 프로세스 탭 (밭·논 준비 -> 심기 -> 생육 관리 -> 수확) -->
+            <div class="stage-tabs" id="quickStageList" role="group" aria-label="작업 단계 선택"></div>
+
+            <!-- 세부 작업 버튼 그리드 -->
+            <div class="operation-chips-wrap">
+              <div class="operation-chips-label">세부 작업 선택 <span class="rec-badge-hint">✦ 초보 추천 작업은 초록색 배지로 표시했어요</span></div>
+              <div class="operation-chips" id="quickOperationList" role="group" aria-label="세부 작업 선택"></div>
+            </div>
+
+            <!-- 초보 농부 맞춤 팁 콜아웃 -->
+            <div class="crop-callout" id="cropCallout">
+              <div class="callout-left">
+                <span class="callout-icon" aria-hidden="true"><img class="picture-icon" src="./src/images/icons/bulb.jpg" alt="" width="32" height="32"></span>
+                <div>
+                  <strong>고추 재배 중이신가요?</strong>
+                  <p>밭 준비부터 수확까지, 필요한 작업을 골라보세요.</p>
+                </div>
+              </div>
+              <div class="callout-actions">
+                <button type="button" class="button button-primary" id="guideResults">조건에 맞는 매물 보기</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="requestsView" class="panel buyer-requests" aria-labelledby="buyerRequestsTitle" hidden>
+          <h1 id="buyerRequestsTitle">내 대여 요청</h1>
+          <div id="buyerRequestList" aria-live="polite"></div>
+        </section>
+
+        <!-- 내 기계 올리기 / 관리 화면 (소유자 모드) -->
+        <section id="ownerLoginRequiredView" class="login-view" hidden>
+          <div class="login-card owner-login-card"><h2>로그인이 필요한 서비스입니다</h2><p>내 기계 관리를 이용하려면 먼저 로그인해 주세요.</p><button type="button" class="login-submit" id="ownerLoginGoButton">로그인하러 가기</button></div>
+        </section>
+        <div id="ownerView" hidden>
+          <section class="owner-hero">
+            <div>
+              <span class="hero-badge">농기계 공유 · 판매 관리</span>
+              <h1>내 농기계 조회</h1>
+              <p>로그인한 계정에 연결된 시연용 농기계를 확인할 수 있어요. 등록·수정·삭제는 지원하지 않아요.</p>
+            </div>
+          </section>
+
+          <div style="display:flex;justify-content:flex-end;margin:0 0 12px"><button type="button" class="button button-secondary button-sm" id="accountLogoutButton">로그아웃</button></div>
+          <div class="owner-stats" id="ownerStats"></div>
+
+          <div class="owner-columns">
+            <section class="panel">
+              <div class="panel-header">
+                <h2>내가 등록한 농기계</h2>
+                <small>조회 전용</small>
+              </div>
+              <div id="ownerListings"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h2>도착한 대여 요청 · 문의</h2>
+                <small>조회 전용 · 이 브라우저에 저장된 내용</small>
+              </div>
+              <div id="ownerRequests"></div>
+            </section>
+          </div>
+        </div>
+
+        <!-- 모아농? 브랜드 소개 -->
+        <div id="aboutView" class="about-view" hidden>
+          <section class="about-hero reveal" aria-labelledby="aboutTitle">
+            <div class="about-logo" role="img" aria-label="모아농 EASY FARM RENTAL">
+              <span class="about-logo-mark" aria-hidden="true"><span class="brand-circle">모</span><span class="brand-circle">아</span><span class="brand-circle brand-circle-accent">농</span></span>
+              <span class="about-logo-tagline" aria-hidden="true"><span>E</span><span>A</span><span>S</span><span>Y</span><span class="gap"></span><span>F</span><span>A</span><span>R</span><span>M</span><span class="gap"></span><span>R</span><span>E</span><span>N</span><span>T</span><span>A</span><span>L</span></span>
+            </div>
+            <h1 id="aboutTitle">필요한 농기계,<br />클릭 한 번이면 충분해요.</h1>
+            <p>모아농은 <strong>초보 농부</strong>를 위한 우리 동네 농기계 대여·중고 거래 서비스예요. 기계 이름을 몰라도 하려는 일만 말하면, 맞는 기계와 쓰는 법을 알려드리고 가까운 이웃 농가의 기계를 바로 빌릴 수 있게 연결해요.</p>
+          </section>
+          <img class="about-hero-image" data-scroll-grow src="./src/banner-1.jpg" alt="밭을 가는 초록 트랙터와 클릭 표시 일러스트" />
+
+          <section class="about-section" aria-labelledby="aboutProblem">
+            <div class="about-heading reveal">
+              <span class="about-kicker">문제의식</span>
+              <h2 id="aboutProblem">농사는 시작했는데,<br />기계 앞에서 막혀요.</h2>
+              <p class="scroll-words" data-scroll-words>처음 농사를 짓는 사람에게 농기계는 가장 높은 벽이에요. 빌리려는 사람도, 빌려줄 수 있는 사람도 불편한 구조가 그대로 남아 있어요.</p>
+            </div>
+            <div class="about-cards">
+              <article class="about-card reveal"><span class="about-who">초보 농부</span><h3>무슨 기계가 필요한지 몰라요</h3><p>기종과 규격이 어렵고, 지금 내 작업에 어떤 기계가 맞는지 판단하기 힘들어요.</p></article>
+              <article class="about-card reveal"><span class="about-who">초보 농부</span><h3>사기엔 부담, 빌릴 곳은 몰라요</h3><p>1년에 며칠 쓰는 기계를 사기엔 비싸고, 가까운 곳에 원하는 날 비어 있는 기계가 있는지 알기 어려워요.</p></article>
+              <article class="about-card reveal"><span class="about-who about-who-owner">기계를 가진 농가</span><h3>쓰지 않는 기계가 놀고 있어요</h3><p>쓰지 않는 기간을 수익으로 바꿀 길이 마땅치 않고, 대여 일정과 문의를 전화로 관리하면 놓치기 쉬워요.</p></article>
+            </div>
+          </section>
+
+          <section class="about-section" aria-labelledby="aboutWhat">
+            <div class="about-heading reveal">
+              <span class="about-kicker">우리가 하는 일</span>
+              <h2 id="aboutWhat">고르고, 배우고, 빌리는 일을<br />한 곳에서 끝내요.</h2>
+            </div>
+            <div class="about-feature reveal">
+              <span class="about-feature-media"><img src="./src/banner-1.jpg" alt="밭에서 일하는 초록 트랙터 일러스트" data-parallax /></span>
+              <div><span class="about-step">01 · 농농이 골라줘요</span><h3>기계 이름 몰라도,<br />하려는 일만 말하세요.</h3><p>"감자 300평 심을 건데요"처럼 말하면 AI 상담사 농농이 작업에 맞는 기계를 추천하고, 어디에 어떻게 쓰는지 쉬운 말로 알려줘요. 농사 순서대로 작물과 할 일을 고르기만 해도 필요한 기계가 바로 나와요.</p></div>
+            </div>
+            <div class="about-feature about-feature-flip reveal">
+              <span class="about-feature-media"><img src="./src/banner-2.jpg" alt="농가 마당 창고 앞에 세워진 관리기 일러스트" data-parallax /></span>
+              <div><span class="about-step">02 · 가까운 곳에서</span><h3>멀리 갈 필요 없이,<br />이웃 농가의 기계를 빌려요.</h3><p>내 동네를 기준으로 가까운 농가가 올린 농기계를 하루 단위로 빌리거나, 오래 쓸 기계는 중고로 살 수 있어요. 기계를 가진 농가는 쓰지 않는 기간에 빌려주고 수익을 얻어요.</p></div>
+            </div>
+            <div class="about-feature reveal">
+              <span class="about-feature-media"><img src="./src/banner-3.jpg" alt="해 질 녘 밭과 불 켜진 농가 일러스트" data-parallax /></span>
+              <div><span class="about-step">03 · 시간 걱정 없이</span><h3>클릭 몇 번이면<br />대여 예약까지 끝.</h3><p>전화나 방문 없이 밤에도 주말에도 날짜를 고르고 대여를 요청해요. 원하는 기계가 대여 중이면 다시 빌릴 수 있을 때 알림으로 알려드려요.</p></div>
+            </div>
+          </section>
+
+          <section class="about-section" aria-labelledby="aboutWhy">
+            <div class="about-why reveal">
+              <div class="about-heading">
+                <span class="about-kicker about-kicker-yellow">왜 이렇게 만들었나</span>
+                <h2 id="aboutWhy" class="scroll-words scroll-words-light" data-scroll-words>기능은 적게, 길은 짧게.</h2>
+                <p>기존 서비스는 기능이 너무 많아서, 기계 하나 잠깐 빌리거나 사는 일이 오히려 어려웠어요. 모아농은 초보 농부가 망설이지 않고 바로 끝낼 수 있는 것만 남겼어요.</p>
+              </div>
+              <div class="about-reasons">
+                <div class="about-reason"><strong>기계 이름 대신 하려는 일로</strong><span>검색어를 몰라도 되도록, 작물과 할 일에서 출발해 기계를 찾게 했어요.</span></div>
+                <div class="about-reason"><strong>추천에 이유와 쓰는 법까지</strong><span>왜 이 기계인지, 어떻게 쓰는지 함께 알려줘야 초보도 안심하고 고를 수 있어요.</span></div>
+                <div class="about-reason"><strong>클릭 몇 번이면 끝</strong><span>필터와 게시글을 뒤지지 않아도 고르고, 날짜를 누르고, 바로 요청할 수 있어요.</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="about-section" aria-labelledby="aboutWho">
+            <div class="about-heading reveal">
+              <span class="about-kicker">함께하는 사람들</span>
+              <h2 id="aboutWho">빌리는 사람도, 빌려주는 사람도 편하게.</h2>
+            </div>
+            <div class="about-cards about-cards-2">
+              <article class="about-card reveal"><span class="about-badge">빌리는 사람</span><h3>초보 농부</h3><p>하려는 일은 알지만 어떤 기계가 필요한지 모르는 사람. 추천 이유를 이해하고, 가까운 기계를 빌리거나 사요.</p></article>
+              <article class="about-card reveal"><span class="about-badge about-badge-owner">빌려주는 사람</span><h3>농기계를 가진 농가</h3><p>쓰지 않는 기간에 기계를 빌려주거나 팔고 싶은 사람. 일정과 요청을 한곳에서 관리해요.</p></article>
+            </div>
+          </section>
+
+          <section class="about-closing reveal" aria-labelledby="aboutGoal">
+            <span class="about-logo-mark about-logo-mark-md" aria-hidden="true"><span class="brand-circle">모</span><span class="brand-circle">아</span><span class="brand-circle brand-circle-accent">농</span></span>
+            <h2 id="aboutGoal" class="scroll-words" data-scroll-words>이웃의 기계를 모아,<br />누구나 쉽게 농사짓도록.</h2>
+            <p>모아농은 '모아'와 '농'을 합친 이름이에요. 흩어진 동네 농기계를 한곳에 모아, 처음 농사짓는 사람도 필요한 기계를 쉽게 만나게 하는 것이 우리의 목표예요.</p>
+            <button type="button" class="banner-cta" data-view-target="home">모아농 시작하기</button>
+          </section>
+        </div>
+
+        <!-- 아이디 기반 계정 로그인 화면 -->
+        <section id="loginView" class="login-view" aria-labelledby="loginTitle" hidden>
+          <div class="login-card">
+            <h1 id="loginTitle" class="login-logo">
+              <span class="visually-hidden" id="accountHeading">모아농 로그인</span>
+              <span class="login-logo-mark" aria-hidden="true"><span class="brand-circle">모</span><span class="brand-circle">아</span><span class="brand-circle brand-circle-accent">농</span></span>
+              <span class="login-logo-tagline" aria-hidden="true"><span>E</span><span>A</span><span>S</span><span>Y</span><span class="gap"></span><span>F</span><span>A</span><span>R</span><span>M</span><span class="gap"></span><span>R</span><span>E</span><span>N</span><span>T</span><span>A</span><span>L</span></span>
+            </h1>
+
+            <form class="login-form" id="loginForm">
+              <div id="signupNameField" hidden>
+                <label class="visually-hidden" for="signupName">이름</label>
+                <input class="login-input" id="signupName" name="name" autocomplete="name" maxlength="40" placeholder="이름" disabled />
+              </div>
+              <label class="visually-hidden" for="loginId">아이디</label>
+              <input class="login-input" id="loginId" name="username" type="text" autocomplete="username" placeholder="아이디 (영문·숫자·_·-, 3~30자)" minlength="3" maxlength="30" pattern="[A-Za-z0-9_-]{3,30}" required />
+              <div class="login-password">
+                <label class="visually-hidden" for="loginPassword">비밀번호</label>
+                <input class="login-input" id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="비밀번호" maxlength="128" required />
+                <button type="button" class="login-eye" id="loginEye" aria-label="비밀번호 보기" aria-pressed="false">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle><path class="login-eye-slash" d="M4 4l16 16"></path></svg>
+                </button>
+              </div>
+              <div id="signupConfirmField" hidden>
+                <label class="visually-hidden" for="signupConfirm">비밀번호 확인</label>
+                <input class="login-input" id="signupConfirm" type="password" autocomplete="new-password" placeholder="비밀번호 확인" maxlength="128" disabled />
+                <p id="signupHint">비밀번호는 8자 이상으로 입력해 주세요.</p>
+              </div>
+              <p id="accountError" class="account-error" role="alert" hidden></p>
+              <button type="submit" class="login-submit" id="loginSubmit" disabled>로그인</button>
+            </form>
+
+            <button type="button" class="login-guest" id="switchAccount">회원가입</button>
+            <button type="button" class="login-guest" data-view-target="home">로그인 없이 둘러보기 <span aria-hidden="true">›</span></button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- 우측 하단 플로팅 AI 농농이 버튼 및 패널 -->
+  <button type="button" class="ai-launcher" id="aiLauncher" aria-label="농농이 상담 열기" aria-controls="aiPanel" aria-expanded="false">
+    <img src="./src/nongnong.png" alt="농농이에게 물어보기" />
+  </button>
+
+  <aside class="ai-panel" id="aiPanel" aria-labelledby="aiTitle" hidden>
+    <div class="ai-header">
+      <div class="ai-header-info">
+        <img class="ai-avatar" src="./src/nongnong.png" width="46" height="46" alt="" />
+        <div>
+          <strong id="aiTitle">농농이 · AI 농기계 상담사</strong>
+          <small id="aiModeLabel">작물·매물 데이터 기반 맞춤 추천</small>
+        </div>
+      </div>
+      <div class="ai-header-actions">
+        <button type="button" class="icon-button ai-expand" id="aiExpand" aria-label="채팅창 확대" title="채팅창 확대" aria-controls="aiPanel" aria-pressed="false"><span aria-hidden="true">⤢</span></button>
+        <button type="button" class="icon-button" id="aiReset" aria-label="새 상담 시작" title="새 상담">↻</button>
+        <button type="button" class="icon-button" id="aiClose" aria-label="농농이 채팅 닫기">✕</button>
+      </div>
+    </div>
+
+    <div class="ai-scroll" id="aiScroll" tabindex="0" role="region" aria-label="농농이 상담 내용">
+      <div class="ai-messages" id="aiMessages" role="log" aria-live="polite">
+        <div class="ai-welcome">
+          <img src="./src/nongnong.png" width="60" height="60" alt="" />
+          <div class="chat-bubble assistant ai-intro">
+            <strong>안녕하세요! 초보 농부 도우미 농농이예요 🌱</strong>
+            <p>하려는 농사일을 한 줄로 알려주세요. 조건을 함께 정한 뒤 맞는 매물을 비교해 드려요.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="prompt-suggestions" id="aiStarters" role="group" aria-label="작업 예시를 입력창에 넣기">
+        <button type="button" data-prompt="고추밭에 두둑을 만들려고 기계를 빌리고 싶어요.">고추밭 두둑 만들기</button>
+        <button type="button" data-prompt="배추밭에 비닐 씌우는 기계를 빌리고 싶어요.">배추밭 비닐 씌우기</button>
+        <button type="button" data-prompt="벼를 수확할 기계를 사고 싶어요.">벼 수확기 구매</button>
+        <button type="button" data-prompt="감자 캐는 기계를 빌리고 싶어요.">감자 캐는 기계 대여</button>
+      </div>
+    </div>
+
+    <form id="aiForm" class="ai-form">
+      <input id="aiInput" maxlength="500" placeholder="예: 고추밭 300평에 두둑을 만들 기계를 빌리고 싶어요" aria-label="AI에게 작업 설명" required />
+      <button type="submit" class="button button-primary ai-send-btn" aria-label="질문 보내기">전송</button>
+    </form>
+    <p class="ai-footnote">추천은 등록된 매물 기준이며, 작업기 호환성과 기계 상태는 거래 전 꼭 확인하세요.</p>
+  </aside>
+
+  <!-- 다나와 + 토스 스타일 한눈에 보는 상세 필터 모달 -->
+  <div class="dialog-backdrop" id="filterBackdrop" hidden>
+    <section class="filter-dialog" role="dialog" aria-modal="true" aria-labelledby="filterTitle">
+      <div class="dialog-header">
+        <div>
+          <span class="step-pill">한눈에 보는 상세 검색</span>
+          <h2 id="filterTitle">내 농사 조건에 딱 맞게 골라보세요</h2>
+          <p class="dialog-subtitle"><span class="highlight-dot"></span> 초록색 추천 배지는 초보 농부님이 가장 많이 찾는 필수 옵션이에요.</p>
+        </div>
+        <button type="button" class="icon-button" id="closeFilters" aria-label="필터 닫기">✕</button>
+      </div>
+
+      <div class="filter-body">
+        <div class="filter-table">
+          <div class="filter-group">
+            <div class="filter-group-label">
+              <h3>재배 작물</h3>
+              <small>중복 선택 가능</small>
+            </div>
+            <div class="option-grid" id="filterCrops"></div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-label">
+              <h3>농사 단계</h3>
+              <small>작업 시기별</small>
+            </div>
+            <div class="option-grid" id="filterStages"></div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-label">
+              <h3>세부 작업</h3>
+              <small>할 일 선택</small>
+            </div>
+            <div class="option-grid" id="filterOperations"></div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-label">
+              <h3>농기계 종류</h3>
+              <small>기종 직접 선택</small>
+            </div>
+            <div class="option-grid" id="filterMachines"></div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-label">
+              <h3>작업할 농지 크기</h3>
+              <small>권장 면적과 비교</small>
+            </div>
+            <div class="filter-control-stack">
+              <div class="preset-chips" id="areaPresets">
+                <button type="button" class="preset-chip" data-area-preset="">전체 면적</button>
+                <button type="button" class="preset-chip" data-area-preset="100">소규모 · 약 100평</button>
+                <button type="button" class="preset-chip" data-area-preset="300">중규모 · 약 300평</button>
+                <button type="button" class="preset-chip" data-area-preset="600">대규모 · 약 600평</button>
+              </div>
+              <div class="range-fields">
+                <label class="input-box-label">
+                  <span>직접 입력 (평)</span>
+                  <input id="areaInput" type="number" min="1" inputmode="numeric" placeholder="예: 300" />
+                </label>
+                <p class="helper-text">입력하신 평수(1평 ≈ 3.3㎡)에 알맞은 크기의 농기계를 추려드려요.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-label">
+              <h3>예산 범위</h3>
+              <small id="budgetUnit">1일 대여료 기준</small>
+            </div>
+            <div class="filter-control-stack">
+              <div class="preset-chips" id="pricePresets"></div>
+              <div class="range-fields">
+                <label class="input-box-label">
+                  <span>최소 금액(원)</span>
+                  <input id="minPrice" type="number" min="0" step="10000" inputmode="numeric" placeholder="0" />
+                </label>
+                <span class="range-tilde">~</span>
+                <label class="input-box-label">
+                  <span>최대 금액(원)</span>
+                  <input id="maxPrice" type="number" min="0" step="10000" inputmode="numeric" placeholder="제한 없음" />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-label">
+              <h3>거리 · 희망 날짜</h3>
+              <small>내 동네 기준</small>
+            </div>
+            <div class="range-fields">
+              <label class="input-box-label">
+                <span>이동 반경</span>
+                <select id="radiusInput">
+                  <option value="all">전체 거리</option>
+                  <option value="10">10km 이내 (가까운 동네)</option>
+                  <option value="15">15km 이내</option>
+                  <option value="20">20km 이내</option>
+                  <option value="30">30km 이내</option>
+                </select>
+              </label>
+              <label class="input-box-label" id="dateFilterLabel">
+                <span>대여 시작일</span>
+                <input id="dateInput" type="date" />
+              </label>
+              <label class="input-box-label" id="dateEndFilterLabel">
+                <span>반납일 (선택)</span>
+                <input id="dateEndInput" type="date" />
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <div class="filter-group-label">
+              <h3>제조사 · 상태</h3>
+              <small>기계 컨디션</small>
+            </div>
+            <div class="filter-control-stack">
+              <div class="option-grid" id="filterConditions"></div>
+              <div class="option-grid" id="filterBrands"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-footer">
+        <button type="button" class="button button-secondary" id="resetFilters">조건 초기화</button>
+        <button type="button" class="button button-primary button-large" id="applyFilters">
+          <span id="filterPreviewCount">0개</span> 맞춤 농기계 보기
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 매물 상세 모달 -->
+  <div class="dialog-backdrop" id="detailBackdrop" hidden>
+    <section class="detail-dialog" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+      <button type="button" class="icon-button detail-close" id="closeDetail" aria-label="상세 닫기">✕</button>
+      <div id="detailContent"></div>
+    </section>
+  </div>
+
+  <!-- 폼/채팅/관심목록 모달 -->
+  <div class="dialog-backdrop" id="formBackdrop" hidden>
+    <section class="form-dialog" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+      <button type="button" class="icon-button detail-close" id="closeForm" aria-label="창 닫기">✕</button>
+      <div id="formContent"></div>
+    </section>
+  </div>
+
+  <!-- 토스트 알림 -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
