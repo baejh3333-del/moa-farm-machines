@@ -279,8 +279,8 @@ AX Challenge 10조(쉽조) 5명이 1박 2일 동안 기획, 개발, 발표를 �
 | **배정현** ([@baejh3333-del](https://github.com/baejh3333-del)) | 총괄 | 작업 흐름 설계, PRD 작성, HTML 목업, Vercel 배포와 GitHub 저장소 운영, 배포 장애 복구, 서비스 시연과 질의응답 진행, 핵심 기능 개발 |
 | 최현지 ([@hyunji061105](https://github.com/hyunji061105)) | UI (초기 설계) | 초기 웹페이지 구성 스케치와 프로토타입, MVP 범위 제한 제안, 기종 사진·정렬 컨트롤·캐릭터 표시 개선, 기능 화면 캡처집, 예상 질문 정리 |
 | 박주은 ([@mainsilver](https://github.com/mainsilver)) | UI (후반 개선) · 기획 | 회의 진행과 전공 연계 문제 정의, 디자인 레퍼런스 조사, 후반 UI 개선, 브랜드 기획안, 발표 구성과 발표자료 제작 |
-| 한준규 ([@bluejun0303-design](https://github.com/bluejun0303-design)) | 에이전트 개발 | 농농이 추천 응답을 검증된 짧은 요약으로 정리, 대여 날짜·예산 입력 해석, 추천 결과 카드 UI, 시연 계정과 내 기계 관리 연동 |
-| 권혁 ([@moad0529](https://github.com/moad0529)) | UX | AI 도구 운용 방안 제안, PRD 보완, 배포 사이트 점검과 이상 발견 |
+| 한준규 ([@bluejun0303-design](https://github.com/bluejun0303-design)) | 에이전트 개발 | 농농이 추천 응답을 검증된 짧은 요약으로 정리, 대여 날짜·예산 입력 해석, 추천 결과 카드 UI|
+| 권혁 ([@moad0529](https://github.com/moad0529)) | UX | AI 도구 운용 방안 제안, PRD 보완, 배포 사이트 점검과 이상 발견, 시연 계정과 내 기계 관리 연동 |
 
 ### 진행 방식
 
